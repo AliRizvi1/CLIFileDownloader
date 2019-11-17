@@ -2,3 +2,4 @@
 # ignore downloaded files for git:
 *.zip
 *.jpg
+*.exe

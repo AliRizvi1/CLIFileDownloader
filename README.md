@@ -1,6 +1,20 @@
+# Installation
+
+1. Change permissions for executable by running `chmod +x downloader` in your terminal after cloning the repository.
+
+#Usage
+
+Usage: ./downloader --c=*Number of Threads* --name=*Name of file* <URL>
+
+Notes: type ./downloader --help for more information on the usage of the file downloader. --c=X will change the number of threads. This is an optional flag and defaults to one thread. --name=XXX will change the name of the downloaded file. This is a mandatory flag (an error will occur if the name is not given, so please change your autotests to incorporate this).
+
+#Design Notes
+
+I chose to create a file downloader that first splits the file into multiple parts, depending on the number of threads. These threads are run concurrently and will download each individual chunk. 
+
+# Notes
+
+Threads seem to increase in value as the size of the file increases. In fact, for a very small picture (i.e. <100KB) more threads seem to increase the time it takes. This is likely because there is a small initialization time per thread.
+
 Todo:
 1. Implement virus scanner https://pypi.org/project/clamd/
-2. Change to executable file and change cli parameter to "--c"
-3. Create test folder for executable tests we can run, this one shows it well: https://download.microsoft.com/download/8/7/D/87D36A01-1266-4FD3-924C-1F1F958E2233/Office2010DevRefs.exe
-Show with 1 thread, 6, 12. Multiple threads
-4. Test against a large file for scale

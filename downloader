@@ -25,22 +25,7 @@ def Handler(start,end,url,filename):
 			var = fp.tell() 
 			fp.write(r.content)
 	  
-		
-
-
-# def fetch_url(entry):
-# 	#split:
-# 	path, uri = entry
-# 	if not os.path.exists(path):
-# 		r = requests.get(uri, stream=True)
-# 		if r.status_code == 200:
-# 			with open(path, 'wb') as f:
-# 				for chunk in r.iter_content(chunk_size=8092):
-# 					if chunk: 
-# 						f.write(chunk)
-# 	return path
-	
-
+# default of 1 thread (which is best for smaller files)
 @click.command(help="Download a file with a specific name to your current directory.") 
 @click.option('--c',default=1, help="No of Threads")
 @click.option('--name',type=click.Path(),help="Name of the file with extension") 
@@ -91,9 +76,6 @@ def download_file(ctx,url_of_file,name,c):
 
 	print("Elapsed Time: ")
 	print(elapsed_time)
-#to do: create test bash commands and a folder for it
-#test using: https://www.thinkbroadband.com/download
-#put on github
 
 if __name__ == '__main__': 
 	#threads run in the same memory space and therefore multiple threads may be writing to the same memory simultaneously
