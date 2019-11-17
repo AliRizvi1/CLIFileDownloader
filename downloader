@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+#https://markhneedham.com/blog/2018/07/15/python-parallel-download-files-requests/
+import requests 
+import os
+import time
+from multiprocessing.pool import ThreadPool
+
+
+url = "https://images.genius.com/3a5a5525277ce891f722c3221ade68d2.1000x1000x1.jpg"
+  
+def fetch_url(entry):
+    path = entry
+    uri = entry
+    if not os.path.exists(path):
+        r = requests.get(uri, stream=True)
+        if r.status_code == 200:
+            with open(path, 'wb') as f:
+                for chunk in r:
+                    f.write(chunk)
+    return path
+
+start = time.time()
+
+fetch_url(url)
+
+results = ThreadPool(8).imap_unordered(fetch_url, url)
+
+
+elapsed_time = time.time() - start
+
+print("Elapsed Time: ")
+print(elapsed_time)
+
+
+
