@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# test file: medium sized (100MB) .bin file. All times are in seconds:
+./downloader --name=100mbOne.bin http://speedtest-ny.turnkeyinternet.net/100mb.bin
+# Time w/ one thread: 15.1200530529
+./downloader --c=4 --name=100mbFour.bin http://speedtest-ny.turnkeyinternet.net/100mb.bin
+# Time w/ four threads: 17.3519430161
+./downloader --c=10 --name=100mbTen.bin http://speedtest-ny.turnkeyinternet.net/100mb.bin
+# Time w/ ten threads: 14.1159222126
+./downloader --c=15 --name=100mbFifteen.bin http://speedtest-ny.turnkeyinternet.net/100mb.bin
+# Time w/ fifteen threads: 12.2280261517
+./downloader --c=22 --name=100mbTwentyTwo.bin http://speedtest-ny.turnkeyinternet.net/100mb.bin
+# Time w/ twenty two threads: 13.2632091045
+./downloader --c=100 --name=100mbOneHundred.bin http://speedtest-ny.turnkeyinternet.net/100mb.bin
+# Time w/ one hundred threads: 23.3257060051

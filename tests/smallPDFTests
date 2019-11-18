@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#test file: small (434KB) pdf file. All times are in seconds:
+cd ../
+./downloader http://www.pdf995.com/samples/pdf.pdf
+# Time w/ 1 thread: 0.382524967194
+./downloader --c=4 --name=pdfFour.pdf http://www.pdf995.com/samples/pdf.pdf
+# Time w/ 4 threads: 0.294233083725
+./downloader --c=10 --name=pdfTen.pdf http://www.pdf995.com/samples/pdf.pdf
+# Time w/ 10 threads: 0.305086135864
+./downloader --c=20 --name=pdfTwenty.pdf http://www.pdf995.com/samples/pdf.pdf
+# Time w/ 20 threads: 0.320431947708

@@ -5,27 +5,21 @@ from multiprocessing.pool import ThreadPool
 import threading
 import click
 import math
+# clamd is virus scanner api:
+# import clamd
 
 def Handler(start,end,url,filename):
 	headers = {'Range': 'bytes=%d-%d' % (start, end)} 
   
 	# request the specified part and get into variable     
 	r = requests.get(url, headers=headers, stream=True)
-  
-	# open the file and write the content of the html page  
-	# into file. 
-	# if r.status_code == 200:
-	# 	with open(filename, 'wb') as f:
-	# 		for chunk in r.iter_content(chunk_size=8092):
-	# 					if chunk:
-	# 						f.write(chunk)
+
 	with open(filename, "r+b") as fp:
-		for chunk in r.iter_content(chunk_size=8092):
-			fp.seek(start) 
-			var = fp.tell() 
-			fp.write(r.content)
-	  
-# default of 1 thread (which is best for smaller files)
+		fp.seek(start)
+		var = fp.tell() 
+		fp.write(r.content)
+
+# use click to create easy CLI interface:
 @click.command(help="Download a file with a specific name to your current directory.") 
 @click.option('--c',default=1, help="No of Threads")
 @click.option('--name',type=click.Path(),help="Name of the file with extension") 
@@ -46,8 +40,7 @@ def download_file(ctx,url_of_file,name,c):
 		return
 	
 	part = int(file_size) // number_of_threads
-	# The integer split might not occur evenly, in which case the part size has to be increased to match
-	# the original file size
+	# The integer split might not occur evenly, in which case the part size has to be increased to match the original file size
 	if (file_size % number_of_threads != 0):
 		part = part + 1
 	part = math.ceil(part)
@@ -71,16 +64,21 @@ def download_file(ctx,url_of_file,name,c):
 			continue
 		t.join()
 	print ('%s downloaded' % file_name)
+	#after download, check for virus:
+	# virusScan(name)
 
 	elapsed_time = timer() - begTime
 
 	print("Elapsed Time: ")
 	print(elapsed_time)
 
+# def virusScan(filename):
+# 	cd = clamd.ClamdUnixSocket()
+# 	open(filename,'wb').write(clamd.EICAR)
+# 	cd.scan('/tmp/EICAR')
+# 	print("Virus scan finished.")
+
 if __name__ == '__main__': 
-	#threads run in the same memory space and therefore multiple threads may be writing to the same memory simultaneously
-	#spawning processes is a little slower, however they will not write to the same memory space
-	#default number of threads is 1, if the file is too small a large amount of threads breaks the download
 	download_file(obj={})
 
 
